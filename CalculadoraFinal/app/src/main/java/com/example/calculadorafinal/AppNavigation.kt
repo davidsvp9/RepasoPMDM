@@ -10,8 +10,7 @@ import androidx.navigation.navArgument
 import com.example.calculadorafinal.ui.VentanaPrincipal
 import com.example.calculadorafinal.ui.VentanaResultado
 
-const val ARG_OPERACION = "operacion"
-const val RUTA_RESULTADO = "resultado/{$ARG_OPERACION}"
+
 
 @Composable
 fun AppNavigation(
@@ -30,21 +29,13 @@ fun AppNavigation(
                 onLimpiar = calculadoraViewModel::limpiar,
                 onCalcular = {
                     calculadoraViewModel.calcular()
-                    navController.navigate("resultado/calculo")
+                    navController.navigate("resultado")
                 }
             )
         }
-        composable(
-            route = RUTA_RESULTADO,
-            arguments = listOf(
-                navArgument(ARG_OPERACION) {
-                    type = NavType.StringType
-                }
-            )
-        ) { backStackEntry ->
-            val operacion = backStackEntry.arguments?.getString(ARG_OPERACION) ?: "operacion"
+        composable("resultado") {
             VentanaResultado(
-                operacion = operacion,
+                operacion = "calculo", // O el valor fijo que quieras pasarle
                 resultado = calculadoraViewModel.resultado,
                 onReiniciar = {
                     calculadoraViewModel.reiniciar()
